@@ -53,10 +53,7 @@
             // Make sure the image is loaded first otherwise nothing will draw.
             context.drawImage(background,0,0);
 
-            // players
-            var numPlayers = 9;
-            // pNumbers
-            // Xin - (68) + 1 + 1 = 70
+			 // Xin - (68) + 1 + 1 = 70
             // SNaren - 36 + 1 + 6 (43) + 5 (48) + 4 = 52
             // Mo - 7 + (23) + 4 = 27
             // Susheel - 6 + 4 + 5 + 1 (16) + 1 = 17 -> 7
@@ -65,31 +62,20 @@
             // Li - 8 + 5 + 4 + 3 + 6 (16) + 6 = 22
             // Iyyengar - 7 + 5 + 5 + 3 (10) + 3 = 13
             // Lei - 19 + 4 + 2 + 3 (28 -> 84) + 1 = 85
-
-
-            var players = [
-                [-1+10, 10-7, 0, 0],
-                [-1+9, 10-6, 1, 0],
-                [-1+7, 10-3, 2, 0],
-                [-1+7, 10-1, 0, 1],
-                [-1+1, 10-5, 2, 1],
-                [-1+8, 10-2, 2, 1],
-                [-1+2, 10-3, 0, 2],
-                [-1+8, 10-2, 1, 2],
-                [-1+5, 10-9, 2, 2]
-            ];
-            var playerNames = [
-                'Xin' ,
-                'SNaren' ,
-                'Mo' ,
-                'Susheel' ,
-                'MNaren' ,
-                'Hima' ,
-                'Li' ,
-                'Iyyengar' ,
-                'Lei Yin'
-            ];
-
+		
+			
+			var players = [
+                {number:79, name:'Xin'},
+				{number:57, name:'SNaren'},
+				{number:33, name:'Mo'},
+				{number:15, name:'Susheel'},
+				{number:46, name:'MNaren'},
+				{number:16, name:'Hima'},
+				{number:27, name:'Li'},
+				{number:23, name:'Iyyengar'},
+				{number:89, name:'Lei Yin'}
+	        ];
+			
             var colors = [
                 '#DA413D',
                 '#672E3B',
@@ -108,39 +94,52 @@
                 '#95DEE3'
             ];
 
+			var offsetX = 60;
+			var offsetY = 60;
+			var colX = 176;
+			var colY = 60;
+			var offsetPerPlayX = 45;
+			var offsetPerPlayY = 45;
+			var radius = 30;
+			var font = "12px Arial";
 
+			var numPlayers = players.length;
+			var inBoxPlayerOffsetMax = Math.ceil(Math.sqrt(numPlayers));
+						
+			for (i = 0; i < numPlayers; i++) {
 
-            var offsetX = 60;
-            var offsetY = 60;
-            var colX = 176;
-            var colY = 60;
-            var offsetPerPlayX = 45;
-            var offsetPerPlayY = 45;
-            var radius = 30;
-            var font = "12px Arial";
+				var inBoxPlayerOffsetX = Math.floor(i / inBoxPlayerOffsetMax);
+				var inBoxPlayerOffsetY = i % inBoxPlayerOffsetMax;
 
-            for (i = 0; i < numPlayers; i++) {
-                var ctx = players[i];
+				var playerNumber = players[i].number - 1;
+				var playerOffsetX;
+				if ((Math.floor(playerNumber / 10)) % 2 == 0) {
+					playerOffsetX = (playerNumber) % 10;
+				} else {
+					playerOffsetX = 9 - (playerNumber) % 10;
+				}
+				var playerOffsetY = 9 - Math.floor(playerNumber / 10);
 
-                var centerX = offsetX + ctx[0] * colX + ctx[2] * offsetPerPlayX;
-                var centerY = offsetY + ctx[1] * colX + ctx[3] * offsetPerPlayY;
+				var centerX = offsetX + playerOffsetX * colX + inBoxPlayerOffsetX * offsetPerPlayX;
+				var centerY = offsetY + playerOffsetY * colX + inBoxPlayerOffsetY * offsetPerPlayY;
 
-                context.beginPath();
-                context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-                context.fillStyle = colors[i];
-                context.fill();
-                context.lineWidth = 1;
-                context.strokeStyle = '#003300';
-                context.stroke();
-                context.fill();
-                context.closePath();
-                context.fillStyle = "white";
-                var text = playerNames[i]
+				context.beginPath();
+				context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+				context.fillStyle = colors[i];
+				context.fill();
+				context.lineWidth = 1;
+				context.strokeStyle = '#003300';
+				context.stroke();
+				context.fill();
+				context.closePath();
+				context.fillStyle = "white";
+				var text = players[i].name;
 
-                context.font = font;
-                context.textBaseline = "top";
-                context.fillText(text, centerX-radius/2,centerY-radius/4);
-            }
+				context.font = font;
+				context.textBaseline = "top";
+				context.fillText(text, centerX-radius/2,centerY-radius/4);
+			}
+
 
         </script>
     </body>
